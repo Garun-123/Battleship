@@ -1,0 +1,25 @@
+body
+{
+    margin:0;
+    padding:0;
+}
+
+.container
+{
+    display:flex;
+    flex-direction:row;
+    height:50vh;
+    width:100vw;
+    justify-content:space-between;
+}
+
+.board-1,.board-2
+{
+    display:grid;
+    grid-template-columns:repeat(8,50px);
+    grid-template-rows:repeat(8,50px);
+    gap:1px;
+    border:black 1px;
+    height:0.5em;
+    width:0.5em;
+}
