@@ -45,10 +45,11 @@ class Ship
         else{
             div=document.querySelector(".board-2");
         }
-        const cell=document.createElement("div");
+        
+        for(let i=0;i<rows*cols;i++) {
+        let cell=document.createElement("div");
         cell.classList.add("cell");
-        for(let i=0;i<rows;i++) {
-        for(let j=0;i<cols;j++)
+        cell.setAttribute("data-index",i);
         div.appendChild(cell);
         } 
      }
@@ -68,7 +69,7 @@ class Ship
             }  
        
     }
-
+    
     placeShip(ship_index)
     {
         if(this.overall()===-1) {
@@ -76,7 +77,7 @@ class Ship
             return;
         }
         else {
-           this.createBoard(8,8);
+           
            if(this.real==true)
            {
             let placed=false;
@@ -91,10 +92,12 @@ class Ship
                 let space=true;
                 for(let i=0;i<ship.size;i++)
                 {
+                
                    let r=isHorizontal?row:row+i;
                     let c=isHorizontal?col+i:col;
+                    let div=document.querySelector(`.cell[data-index="${r*8+c}"]`);
                     
-                    if(this.GameBoard[r][c]!=='')
+                    if(div.textContent!=='')
                     {
                         space=false;
                         break;
@@ -106,7 +109,7 @@ class Ship
                     {
                         let r=isHorizontal?row:row+i;
                         let c=isHorizontal?col+i:col;
-                        this.GameBoard[r][c]=1;
+                        div.textContent=ship.name;
                     }
                     placed=true;
                 }
@@ -114,18 +117,54 @@ class Ship
            }
         }
     }
+
+    showturn(player)
+    {
+        if(player.chance===1)
+        {
+            displayMessage("Your turn");
+        }
+        else{
+            displayMessage("Computer's turn");
+        }
+    }
  }
 
 
 class Player
 {
-    constructor(name,board)
+    constructor(name,board,real)
     {
         this.name=name;
-        this.board=board;   
+        this.board=board;
+        this.real=real;
+        this.chance;
+        if(this.real==true)
+            {
+                this.chance=1;
+            } 
+            else{
+                this.chance=2;
+            }
+    } 
+    
+
+    turn()
+    {
+      if(this.chance===1)
+      {
+        this.chance==2;
+      }
+      else{
+        this.chance=1;
+      }
     }
 
     
+    score()
+    {
+       
+    }
 }
 
 let ship1=new Ship("Carrier-1",5);
@@ -143,8 +182,32 @@ let compship5 = new Ship("Destroyer-2",2);
 let ships=[ship1,ship2,ship3,ship4,ship5];
 let ships2=[compship1,compship2,compship3,compship4,compship5];
 
-let GameBoard1=new GameBoard(ships,true);
-let GameBoard2=new GameBoard(ships2,false);
 
-let player1= new Player(player1,"board1");
+
+
+
+
+let player_name;
+let player1;
+let btn=document.querySelector("button");
+btn.addEventListener("click",(e)=>{
+e.preventDefault();
+let player=document.querySelector("input");
+player_name=player.value;
+player1= new Player(player_name,"board1",true);
+let div=document.querySelector(".player-name>.player1");
+div.textContent=player_name;
+player.value="";
+});
+
+
+
+
+let computer= new Player("Computer","board2",false);
+
+let GameBoard1=new GameBoard(ships,player1.real);
+let GameBoard2=new GameBoard(ships2,computer.real);
+
+GameBoard1.createBoard(8,8,player1.real);
+GameBoard2.createBoard(8,8,computer.real);
 
