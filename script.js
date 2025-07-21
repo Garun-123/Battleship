@@ -4,12 +4,13 @@ class Ship
     {
         this.name=name;
         this.size=size;
-        this.hit=0;
+        this.shot=0;
+       
     }
     
     sunk()
     {
-        if(this.hit===this.size) {
+        if(this.shot===this.size) {
             
             return true;
         }
@@ -20,8 +21,7 @@ class Ship
 
     hit()
     {
-        
-        this.hit++;
+            this.shot++;
     }
     
 }
@@ -34,6 +34,7 @@ class Ship
         this.ships=ships;
         this.real=real;
         this.diff=0;
+        this.cnt=0;                     // this will be used for the hit mapping in the fire function
     }
 
      createBoard(rows,cols,player)
@@ -71,8 +72,9 @@ class Ship
        
     }
     
-    placeShip(ship_index,player)
+    placeShip(ship_index,player,new_board)
     {
+    
         if(this.overall()===-1) {
             displayMessage("remove a ship with "+this.diff+" or more cells");
             return;
@@ -119,15 +121,17 @@ class Ship
                         let c=isHorizontal?col+i:col;
                         let div=document.querySelector(`${board}>.cell[data-index="${r*8+c}"]`);
                         div.textContent="1";
+                        new_board[r*8+c]=this.cnt;       
                     }
                     placed=true;
+                    this.cnt++;
                 }
             }
            }
         }
     
        
-    hit(index,player)
+    fire(index,player)
     {  
         let flag;
         let board;
@@ -137,11 +141,47 @@ class Ship
         if(div.textContent==='')
         {
             div.textContent='MISS';
+            div.classList.add("miss");
             return false;
         }
         else if(div.textContent==="1")
         {
+            let index=div.dataset.index;
+            let num;
+            
+
             div.textContent="HIT";
+            div.classList.add("hit");
+            if(player.real==true) {
+                num=board2[index];
+                if(num==-1)return;
+                ships2[num].hit();
+                if(ships2[num].sunk())
+                    {
+                       player.increaseScore(); 
+                        score1.textContent=`Player Score: ${player.score}`
+                        Message2.textContent=`Computer Ships remaining: ${ships.length-player.score}`;
+                        if(player.score === ships2.length) {
+                        alert(`${player.name} wins!`);
+                        setTimeout(() => window.location.reload(), 1000);
+                           }
+                    }
+            }
+            else{
+                num=board1[index];
+                if(num==-1)return;
+                ships[num].hit();
+                    if(ships[num].sunk())
+                    {
+                       player.increaseScore(); 
+                       score2.textContent=`Computer Score: ${player.score}`;
+                       Message1.textContent=`Your Ships remaining: ${ships.length-player.score}`;
+                       if(player.score === ships.length) {
+                        alert(`${player.name} wins!`);
+                        setTimeout(() => window.location.reload(), 1000);
+                           }
+                    } 
+            }
             return true;
         }
         else 
@@ -156,11 +196,11 @@ class Ship
         if(player.real==true)
         {
             let div=document.querySelector(".turn");
-            div.textContent="Your turn";
+            div.textContent="Turn: Your turn";
         }
         else{
             let div=document.querySelector(".turn");
-            div.textContent="Computer's turn";
+            div.textContent="Turn: Computer's turn";
         }
     }
 
@@ -197,33 +237,27 @@ class Player
     }
     increaseScore()
     {
-      if(this.real===true)
-        {
-           this.score++;
-        } 
-        else{
            this.score++; 
-        }
     }
 }
 
 
 function ComputerMove() {
     let index= Math.floor(Math.random()*64);
-    let choice=GameBoard2.hit(index,computer);
+    let choice=GameBoard1.fire(index,computer);
     if(choice===true)
     {
-        computer.increaseScore();
-        setTimeout(ComputerMove(),1000);
+        setTimeout(ComputerMove,1000);
     }
     else if(choice===false)
     {
         computer.switchTurn();
         player1.switchTurn();
+        GameBoard1.showturn(player1);
     }
     else if(choice==="Choose again")
     {
-        setTimeout(ComputerMove(),1000);
+        setTimeout(ComputerMove,1000);
         
     }  
 }
@@ -257,7 +291,11 @@ div.textContent=player_name;
 player.value="";
 });
 
+let score1=document.querySelector(".Player-score");
+let score2=document.querySelector(".Computer-score");
 
+let Message1=document.querySelector(".Message1");
+let Message2=document.querySelector(".Message2");
 
 let cell=document.querySelector(".board-2");
 
@@ -266,7 +304,7 @@ cell.addEventListener("click",(e)=>{
     {
         GameBoard1.showturn(player1);
         let index=e.target.dataset.index;
-        let hit=GameBoard1.hit(index,player1);
+        let hit=GameBoard2.fire(index,player1);
         if(hit===false)
         {
             player1.switchTurn();
@@ -274,13 +312,8 @@ cell.addEventListener("click",(e)=>{
             GameBoard2.showturn(computer);
             setTimeout(ComputerMove,1000);
         }
-        else{
-            player1.increaseScore();
-        }
     }
-    else{
-        displayMessage("It's not your turn");
-    }
+
 });
 
 player1= new Player("Player1","board1",true);
@@ -292,9 +325,19 @@ let GameBoard2=new GameBoard(ships2,computer.real);
 GameBoard1.createBoard(8,8,player1.real);
 GameBoard2.createBoard(8,8,computer.real);
 
+let board1=[];
+let board2=[];
+
+for(let i=0;i<64;i++)
+{
+    board1[i]=-1;
+    board2[i]=-1;
+}
+
+
 for(let i=0;i<5;i++)
 {
-    GameBoard1.placeShip(i,player1);
-    GameBoard2.placeShip(i,computer);
+    GameBoard1.placeShip(i,player1,board1);
+    GameBoard2.placeShip(i,computer,board2);
 }
 
