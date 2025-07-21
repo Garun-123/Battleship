@@ -4,11 +4,29 @@ body
     padding:0;
 }
 
+.player-name
+{
+    display:flex;
+    flex-direction:row;  
+    justify-content:space-between;  
+}
+.player-name>.player1
+{
+    margin-top:20px;
+    margin-left:200px;
+    
+}
+.player-name>.computer
+{
+    margin-top: 20px;
+    margin-right:200px;
+
+}
 .container
 {
     display:flex;
     flex-direction:row;
-    height:50vh;
+    height:65vh;
     width:100vw;
     justify-content:space-between;
 }
@@ -20,6 +38,23 @@ body
     grid-template-rows:repeat(8,50px);
     gap:1px;
     border:black 1px;
-    height:0.5em;
-    width:0.5em;
+    height: 400px;            
+    width: 400px;  
+    margin:30px;
 }
+
+.cell
+{
+  width: 48px;
+  height: 48px;
+  background-color: #ccc;
+  border: 1px solid black;
+  box-sizing: border-box;
+  font-size: 30px;
+}
+
+.name
+{
+   margin:20px;
+}
+
