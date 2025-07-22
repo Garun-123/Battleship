@@ -22,13 +22,13 @@ A web-based **Battleship Game** built using HTML, CSS, and JavaScript. This proj
 
 To run the project locally:
 
-. Clone the repository:
+- Clone the repository:
 
    ```bash
    git clone https://github.com/your-username/battleship-game.git
    ```
 
-. Open the project folder and double-click index.html in your browser.
+- Open the project folder and double-click index.html in your browser.
 
  - That's it! No additional dependencies or servers required.
 
