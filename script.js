@@ -106,7 +106,7 @@ class Ship
                     let c=isHorizontal?col+i:col;
                     let div=document.querySelector(`${board}>.cell[data-index="${r*8+c}"]`);
                     
-                    if(div.textContent!=='')
+                    if(div.classList.contains("ship"))
                     {
                         space=false;
                         break;
@@ -120,7 +120,7 @@ class Ship
                         let r=isHorizontal?row:row+i;
                         let c=isHorizontal?col+i:col;
                         let div=document.querySelector(`${board}>.cell[data-index="${r*8+c}"]`);
-                        div.textContent="1";
+                        div.classList.add("ship")
                         new_board[r*8+c]=this.cnt;       
                     }
                     placed=true;
@@ -138,22 +138,22 @@ class Ship
          if(player.real===true) board=".board-2";
          else board=".board-1";
         let div = document.querySelector(`${board}>.cell[data-index="${index}"]`);
-        if(div.textContent==='')
+        if(!div.classList.contains("ship")&&!div.classList.contains("miss")&&!div.classList.contains("hit"))
         {
             div.textContent='MISS';
             div.classList.add("miss");
             return false;
         }
-        else if(div.textContent==="1")
+        else if(div.classList.contains("ship")&&!div.classList.contains("hit"))
         {
-            let index=div.dataset.index;
+            let idx=div.dataset.index;
             let num;
             
 
             div.textContent="HIT";
             div.classList.add("hit");
             if(player.real==true) {
-                num=board2[index];
+                num=board2[idx];
                 if(num==-1)return;
                 ships2[num].hit();
                 if(ships2[num].sunk())
@@ -168,7 +168,7 @@ class Ship
                     }
             }
             else{
-                num=board1[index];
+                num=board1[idx];
                 if(num==-1)return;
                 ships[num].hit();
                     if(ships[num].sunk())
