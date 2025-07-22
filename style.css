@@ -1,26 +1,25 @@
 body
 {
-    margin:0;
-    padding:0;
-    font-family: 'Segoe UI', sans-serif;
-    color: #1a1a1a;
+    background-image: url('https://static.vecteezy.com/system/resources/previews/012/979/472/non_2x/modern-high-resolution-black-geometric-background-with-polygonal-grid-abstract-black-metallic-hexagonal-pattern-simple-illustration-vector.jpg'); 
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: white;
+    font-family: 'Trebuchet MS', sans-serif;
     
-    background: linear-gradient(135deg, #e6f0ff, #ffffff); /* soft gradient */
-    min-height: 100vh;
 }
 
 h1
 {
     text-align:center;
-    color: #1a1a1a;
+    color: whitesmoke;
     text-shadow: 1px 1px 2px rgba(255,255,255,0.4); 
 }
 
 .turn
 {
     text-align:center;
-    background-color: #003366; /* Dark navy blue for high contrast */
-    color: #ffffff; /* Bright white text */
+    background-color: #003366; 
     font-size: 1.5rem;
     font-weight: bold;
     padding: 10px 20px;
@@ -77,56 +76,130 @@ h1
 
 .name
 {
-   margin:20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px;
+    font-size: 1.2rem;
+    color: white;
+    text-shadow: 1px 1px 2px black;
+
 }
 
-.Messages{
-    display:flex;
-    flex-direction:row;
-    justify-content:space-between;
-    margin:20px;
+.Messages,.score{
+    display: flex;
+    justify-content: center;
+    gap: 200px; 
+    margin: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white; 
+    text-shadow: 1px 1px 3px black;
 }
-.score
+.Messages>div,.score>div
+ {
+    padding: 5px 15px;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+.Messages>.Message2
 {
-    display:flex;
-    flex-direction:row;
-    justify-content:space-between;
-    margin:20px;
+    margin-left:100px;
 }
 
-.board-2 .cell {
-    color: transparent;
-}
+
+ .Player-score
+ {
+    margin-right:200px;
+ }
+
+ 
+
 
 
 
 .cell {
-    width: 50px;
     height: 50px;
-    border: 1px solid black;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 18px;
     user-select: none;
-    background-color: #ccc;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px; 
+    color: white;
+    transition: all 0.3s ease;
+    box-shadow:
+        inset 0 0 5px rgba(255, 255, 255, 0.05),
+        0 4px 6px rgba(0, 0, 0, 0.3);
+  background-color: rgb(148, 137, 137);     
+  border: 1px solid #444;                     
+  transition: background-color 0.2s ease;
 }
 
+.cell:hover {
+    background-color: #333;  
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+}
+
+.board-1 .cell.ship {
+    background-color: #444;    
+    border: 2px solid #ff3333;
+    box-shadow: 0 0 12px rgba(255, 0, 0, 0.5);
+}
+
+
 .cell.hit {
-    animation: blast 0.4s ease-in-out;
-    background-color: red;
+    background: radial-gradient(circle, #ff4b2b, #ff416c);
     color: white;
+    font-weight: bold;
+    border: 2px solid white;
+    box-shadow: 
+        0 0 10px rgba(255, 65, 108, 0.8),
+        0 0 20px rgba(255, 65, 108, 0.5);
+    animation: blast 0.4s ease-in-out;
 }
 
 .cell.miss {
-    background-color: lightblue;
-    color: black;
+   background: linear-gradient(145deg, #00c6ff, #0072ff);
+    color: white;
+    font-weight: bold;
+    border: 2px dashed #ffffffcc;
+    box-shadow: 
+        0 0 10px rgba(0, 114, 255, 0.6),
+        inset 0 0 6px rgba(255,255,255,0.2);
+}
+
+board-1 .cell.ship:hover {
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 12px rgba(255, 0, 0, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+    }
 }
 
 @keyframes blast {
-    0% { transform: scale(1); background-color: red; }
-    50% { transform: scale(1.2); background-color: orange; }
-    100% { transform: scale(1); background-color: red; }
+    0% {
+        transform: scale(1);
+        background-color: red;
+    }
+    50% {
+        transform: scale(1.4);
+        background-color: orange;
+        box-shadow: 0 0 20px orange;
+    }
+    100% {
+        transform: scale(1);
+        background-color: red;
+    }
 }
 button {
     background-color: #003366; 
