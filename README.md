@@ -7,13 +7,10 @@ A web-based **Battleship Game** built using HTML, CSS, and JavaScript. This proj
 - 🧩 8x8 grid-based board system (`.board-1` and `.board-2`)
 - 🛠️ Manual and randomized ship placement
 - 🎯 Turn-based player vs. computer gameplay
-- 👁️ Ships on `board-1` are now visible (for debugging or easy mode)
+- 👁️ Ships on `board-1` are visible 
 - 💅 Black-themed aesthetic with high-contrast styling
 - 🎨 Responsive and clean CSS grid layout
 
-## 🌐 Live Demo
-
-> _Coming Soon (you can host this easily on [GitHub Pages](https://pages.github.com)!)_
 
 ## 📦 Technologies Used
 
@@ -25,7 +22,16 @@ A web-based **Battleship Game** built using HTML, CSS, and JavaScript. This proj
 
 To run the project locally:
 
-1. Clone the repository:
+. Clone the repository:
 
    ```bash
    git clone https://github.com/your-username/battleship-game.git
+   ```
+
+. Open the project folder and double-click index.html in your browser.
+
+ - That's it! No additional dependencies or servers required.
+
+
+## 🛡️ License
+This project is licensed under the MIT License — feel free to use, modify, and share it.
